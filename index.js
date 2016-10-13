@@ -1,5 +1,5 @@
 import app from './app';
 
-app.listen('7000', () =>{
-	console.log('app running on port 7000');
+app.listen('7000', app.get('port'), () => {
+  console.log(`app running on port ${app.get('port')}`);
 });
