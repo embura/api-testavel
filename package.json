@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test-integration": "mocha --opts test/integration/mocha.opts test/integration/**/*.js",
+    "start": "NODE_ENV=prod babel-node index.js",
+    "test": "npm run test-unit && npm run test-integration && npm run test-contracts",
+    "test-integration": "NODE_ENV=test mocha --opts test/integration/mocha.opts test/integration/**/*.js",
+    "test-unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/**/*.js",
+    "test-contracts": "NODE_ENV=test mocha --opts test/contracts/mocha.opts test/contracts/**/*.js",
     "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix" 
-
+    "lint:fix": "eslint '**/*.js' --fix"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +19,7 @@
     "babel-cli": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
     "body-parser": "^1.15.2",
-    "express": "^4.14.0",
+    "express": "^4.14.0",    
     "sequelize": "^3.24.3",
     "sqlite3": "^3.1.6"
   },
@@ -29,7 +30,10 @@
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
+    "joi": "^9.1.1",
+    "joi-assert": "0.0.3",
     "mocha": "^3.1.2",
-    "supertest": "^2.0.0"
+    "supertest": "^2.0.0",
+    "testdouble": "^1.8.0"
   }
 }

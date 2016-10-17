@@ -29,7 +29,7 @@ describe('Routes Books', () => {
 
 
   describe('Route GET /books/{id}', () => {
-    it('should return a list of book', (done) => {
+    it('should return a book', (done) => {
       request
       .get('/books/1')
       .end((err, res) => {
@@ -41,21 +41,21 @@ describe('Routes Books', () => {
     });
   });
 
-  describe('Route POST /books/{id}', () => {
+  describe('Route POST /books', () => {
     it('should create a book', (done) => {
       const newBook = {
         id: 2,
-        name: 'newBook',
+        name: 'Create Book',
       };
       request
-      .post('/books')
-      .send(newBook)
-      .end((err, res) => {
-        expect(res.body.id).to.be.eql(newBook.id);
-        expect(res.body.name).to.be.eql(newBook.name);
+    .post('/books')
+    .send(newBook)
+    .end((err, res) => {
+      expect(res.body.id).to.be.eql(newBook.id);
+      expect(res.body.name).to.be.eql(newBook.name);
 
-        done(err);
-      });
+      done(err);
+    });
     });
   });
 
@@ -67,13 +67,13 @@ describe('Routes Books', () => {
       };
 
       request
-      .put('/books/1')
-      .send(updateBook)
-      .end((err, res) => {
-        expect(res.body).to.be.eql([1]);
+    .put('/books/1')
+    .send(updateBook)
+    .end((err, res) => {
+      expect(res.body).to.be.eql([1]);
 
-        done(err);
-      });
+      done(err);
+    });
     });
   });
 
