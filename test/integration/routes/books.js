@@ -1,5 +1,4 @@
-describe('Test contracts Books', () => {
-
+describe('Test Integration Books', () => {
     const Books = app.datasource.models.Books;
     const defaultBook = {
         id: 1,
@@ -16,18 +15,13 @@ describe('Test contracts Books', () => {
     });
 
     describe('Route GET /books', () => {
-        it('should return a list of book', (done) => {
-            const booksList = Joi.array().items(Joi.object().keys({
-                id: Joi.number(),
-                name: Joi.string(),
-                createdAt: Joi.date().iso(),
-                updatedAt: Joi.date().iso(),
-            }));
-
+        it('should return a book', (done) => {
             request
             .get('/books')
             .end((err, res) => {
-                joiAssert(res.body, booksList);
+                expect(res.body[0].id).to.be.eql(defaultBook.id);
+                expect(res.body[0].name).to.be.eql(defaultBook.name);
+
                 done(err);
             });
         });
@@ -35,17 +29,12 @@ describe('Test contracts Books', () => {
 
     describe('Route GET /books/{id}', () => {
         it('should return a book', (done) => {
-            const book = Joi.object().keys({
-                id: Joi.number(),
-                name: Joi.string(),
-                createdAt: Joi.date().iso(),
-                updatedAt: Joi.date().iso(),
-            });
-
             request
             .get('/books/1')
             .end((err, res) => {
-                joiAssert(res.body, book);
+                expect(res.body.id).to.be.eql(defaultBook.id);
+                expect(res.body.name).to.be.eql(defaultBook.name);
+
                 done(err);
             });
         });
@@ -57,19 +46,13 @@ describe('Test contracts Books', () => {
                 id: 2,
                 name: 'Create Book',
             };
-
-            const book = Joi.object().keys({
-                id: Joi.number(),
-                name: Joi.string(),
-                createdAt: Joi.date().iso(),
-                updatedAt: Joi.date().iso(),
-            });
-
             request
             .post('/books')
             .send(newBook)
             .end((err, res) => {
-                joiAssert(res.body, book);
+                expect(res.body.id).to.be.eql(newBook.id);
+                expect(res.body.name).to.be.eql(newBook.name);
+
                 done(err);
             });
         });
@@ -81,18 +64,17 @@ describe('Test contracts Books', () => {
                 id: 1,
                 name: 'update Book',
             };
-            const updateCount = Joi.array().items(1);
 
             request
             .put('/books/1')
             .send(updateBook)
             .end((err, res) => {
-                joiAssert(res.bady, updateCount);
+                expect(res.body).to.be.eql([1]);
+
                 done(err);
             });
         });
     });
-
 
     describe('Route DELETE /books/{id}', () => {
         it('should delete a book', (done) => {
